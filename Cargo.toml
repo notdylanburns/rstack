@@ -1,0 +1,17 @@
+[package]
+name = "rstack"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "rosi"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rstack"
+path = "src/main.rs"
+
+[dependencies]
+tun-tap = "0.1.4"
