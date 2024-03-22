@@ -1,6 +1,6 @@
 use std::io;
 
-use rosi::common::{Ipv4Address, Layer, Serialise};
+use rosi::common::{Layer, Serialise};
 use rosi::protocols::{ethernet, arp};
 
 fn main() -> io::Result<()> {

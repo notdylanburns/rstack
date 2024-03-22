@@ -1,4 +1,4 @@
-use crate::common::{MacAddress, DeserialiseError, Serialise, Layer};
+use crate::common::{address::MacAddress, DeserialiseError, Serialise, Layer};
 use super::ethertype::EtherType;
 
 #[derive(Debug)]

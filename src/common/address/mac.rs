@@ -1,5 +1,3 @@
-use super::address::addr_type;
-
 addr_type! {
     pub MacAddress(6, u64)
 }

@@ -1,5 +1,3 @@
-use super::address::addr_type;
-
 addr_type! {
     pub Ipv4Address(4, u32)
 }

@@ -10,7 +10,6 @@ pid=$!
 
 trap "kill $pid" EXIT
 
-sudo ip addr add '192.168.0.1' dev tap0
 sudo ip link set dev tap0 up
 
 wait $pid

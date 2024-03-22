@@ -2,7 +2,7 @@ use crate::common::{
     Address,
     Serialise, DeserialiseError
 };
-use crate::common::{
+use crate::common::address::{
     MacAddress,
     Ipv4Address, Ipv6Address
 };

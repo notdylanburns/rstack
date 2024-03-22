@@ -93,4 +93,8 @@ macro_rules! addr_type {
     };
 }
 
-pub(super) use addr_type;
+mod mac;
+pub use mac::MacAddress;
+
+mod ip;
+pub use ip::{Ipv4Address, Ipv6Address};

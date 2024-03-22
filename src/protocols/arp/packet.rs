@@ -131,9 +131,13 @@ impl core::fmt::Display for Packet {
 }
 
 #[test]
+#[allow(unused)]
 fn test_arp_multiple_new() {
     use crate::common::{
         Address, Serialise,
+    };
+
+    use crate::common::address::{
         Ipv4Address, Ipv6Address,
         MacAddress
     };
