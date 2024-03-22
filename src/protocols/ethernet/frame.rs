@@ -113,21 +113,11 @@ impl Frame {
         }
     }
 
-    pub fn destination(&self) -> MacAddress {
-        self.header.mac_destination
-    }
-
-    pub fn source(&self) -> MacAddress {
-        self.header.mac_source
-    }
-
-    pub fn ethertype(&self) -> EtherType {
-        self.header.ethertype
-    }
-
-    pub fn tpid(&self) -> Option<EtherType> {
-        self.header.tpid
-    }
+    crate::util::getter!(destination(header.mac_destination): MacAddress);
+    crate::util::getter!(source(header.mac_source): MacAddress);
+    crate::util::getter!(ethertype(header.ethertype): EtherType);
+    crate::util::getter!(tpid(header.tpid): Option<EtherType>);
+    crate::util::getter!(fcs: u32);
 
     pub fn tci(&self) -> Option<u16> {
         self.header.tpid.and(Some(self.header.tci))
@@ -135,10 +125,6 @@ impl Frame {
 
     pub fn data(&self) -> &[u8] {
         &self.data
-    }
-
-    pub fn fcs(&self) -> u32 {
-        self.fcs
     }
 
     fn get_fcs(&self) -> u32 {

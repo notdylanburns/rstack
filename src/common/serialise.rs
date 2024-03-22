@@ -33,7 +33,7 @@ pub trait Serialise {
     fn byte_length(&self) -> usize;
     fn serialise(&self, buf: &mut [u8]) -> usize;
     fn deserialise(buf: &[u8]) -> Result<Self, DeserialiseError>
-        where Self: Sized;
+    where Self: Sized;
 }
 
 macro_rules! serialise_impl {

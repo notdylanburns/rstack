@@ -31,19 +31,19 @@ macro_rules! addr_type {
             fn byte_length(&self) -> usize {
                 <Self as $crate::common::address::Address>::BYTE_LENGTH
             }
-        
+
             fn serialise(&self, buf: &mut [u8]) -> usize {
                 buf[..self.byte_length()].copy_from_slice(&self.bytes);
                 self.byte_length()
             }
-        
+
             fn deserialise(buf: &[u8]) -> Result<Self, $crate::common::DeserialiseError> {
                 if buf.len() < $byte_len {
                     Err($crate::common::DeserialiseError::BufferTooSmall(file!(), line!(), column!(), $byte_len, buf.len()))
                 } else {
                     let mut new_addr = [0u8; $byte_len];
                     new_addr.copy_from_slice(&buf[..$byte_len]);
-        
+
                     Ok(Self {
                         bytes: new_addr
                     })
@@ -85,7 +85,7 @@ macro_rules! addr_type {
                     let start_idx = (TBYTES - <$addr_type as $crate::common::address::Address>::BYTE_LENGTH);
 
                     bytes[start_idx..].copy_from_slice(&value.bytes);
-            
+
                     <$num_type>::from_be_bytes(bytes)
                 }
             }

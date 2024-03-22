@@ -1,3 +1,5 @@
+use crate::util::serialise_enum;
+
 use crate::common::{
     Address,
     Serialise, DeserialiseError
@@ -8,87 +10,8 @@ use crate::common::address::{
 };
 use crate::protocols::ethernet::EtherType;
 
-macro_rules! u16_enum {
-    ($v:vis $name:ident { $($hty:ident: $n:literal),*$(,)? }) => {
-        #[derive(Eq, PartialEq, Debug, Copy, Clone)]
-        $v enum $name {
-            Unknown(u16),
-            $($hty),*
-        }
-
-        impl From<u16> for $name {
-            fn from(value: u16) -> Self {
-                match value {
-                    $($n => Self::$hty,)*
-                    hty => Self::Unknown(hty),
-                }
-            }
-        }
-
-        impl From<[u8; 2]> for $name {
-            fn from(value: [u8; 2]) -> Self {
-                Self::from(u16::from_be_bytes(value))
-            }
-        }
-
-        impl From<$name> for u16 {
-            fn from(value: $name) -> Self {
-                match value {
-                    $($name::$hty => $n,)*
-                    $name::Unknown(v) => v,
-                }
-            }
-        }
-
-        impl From<$name> for [u8; 2] {
-            fn from(value: $name) -> Self {
-                u16::from(value).to_be_bytes()
-            }
-        }
-
-        impl Serialise for $name {
-            #[inline]
-            fn byte_length(&self) -> usize {
-                2
-            }
-        
-            fn serialise(&self, buf: &mut [u8]) -> usize {
-                let bytes: [u8; 2] = (*self).into();
-                buf[..self.byte_length()].copy_from_slice(&bytes);
-                self.byte_length()
-            }
-        
-            fn deserialise(buf: &[u8]) -> Result<Self, DeserialiseError> {
-                if buf.len() < 2 {
-                    Err(DeserialiseError::BufferTooSmall(file!(), line!(), column!(), 2, buf.len()))
-                } else {
-                    let mut bytes = [0u8; 2];
-                    bytes.copy_from_slice(&buf[..2]);
-                    Ok(Self::from(u16::from_be_bytes(bytes)))
-                }
-            }
-        }
-
-        impl core::fmt::Display for $name {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                match self {
-                    Self::Unknown(v) => write!(f, "{v}"),
-                    _ => write!(
-                        f,
-                        "{}",
-                        match self {
-                            $(Self::$hty => stringify!($hty),)*
-                            _ => unreachable!(),
-                        }
-                    ),
-                }
-            }
-        }
-    };
-}
-
-u16_enum! {
-    pub Htype {
+serialise_enum! {
+    pub Htype(u16, 2) {
         Ethernet: 1,
         IEEE802: 6,
         Arcnet: 7,
@@ -101,8 +24,8 @@ u16_enum! {
     }
 }
 
-u16_enum! {
-    pub Operation {
+serialise_enum! {
+    pub Operation(u16, 2) {
         Request:  1,
         Response: 2,
     }
