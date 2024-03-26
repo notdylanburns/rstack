@@ -1,10 +1,9 @@
 use std::io;
 
 use rosi::common::{Layer, Serialise};
-use rosi::protocols::{ethernet, arp};
+// use rosi::protocols::{ethernet, arp};
 
 mod netservice;
-mod tun_tap;
 mod ethernet;
 
 fn main() -> io::Result<()> {

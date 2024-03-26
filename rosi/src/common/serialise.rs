@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 #[derive(Debug)]
 pub enum DeserialiseError {
     Static(&'static str),
@@ -64,6 +66,23 @@ serialise_impl!(u64);
 serialise_impl!(u128);
 
 impl Serialise for &[u8] {
+    #[inline]
+    fn byte_length(&self) -> usize {
+        self.len()
+    }
+
+    fn serialise(&self, buf: &mut [u8]) -> usize {
+        let len = self.byte_length();
+        buf[..len].copy_from_slice(self);
+        len
+    }
+
+    fn deserialise(_: &[u8]) -> Result<Self, DeserialiseError> {
+        unimplemented!()
+    }
+}
+
+impl Serialise for Arc<[u8]> {
     #[inline]
     fn byte_length(&self) -> usize {
         self.len()

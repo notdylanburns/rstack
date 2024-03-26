@@ -1,4 +1,4 @@
-use crate::common::{address::MacAddress, DeserialiseError, Serialise, Layer};
+use crate::common::{address::MacAddress, DeserialiseError, Serialise, Layer, Pdu};
 use super::ethertype::EtherType;
 
 #[derive(Debug)]
@@ -165,6 +165,15 @@ impl core::fmt::Display for Frame {
         }
 
         Ok(())
+    }
+}
+
+impl Pdu for Frame {
+    fn log(&self, action: &str) {
+        println!(
+            "{} ",
+            action
+        )
     }
 }
 
